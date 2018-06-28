@@ -27,6 +27,7 @@ namespace EfficientCareLookUp.UserControls
             InitializeComponent();
 
             toolStripComboBoxWarehouse.SelectedIndex = Properties.Settings.Default.DEFAULT_WAREHOUSE_INDEX;
+            toolStripComboBoxContainerType.SelectedIndex = Properties.Settings.Default.DEFAULT_CONTAINER_TYPE_INDEX;
 
         }
 
@@ -41,14 +42,45 @@ namespace EfficientCareLookUp.UserControls
             }
             else
             {
-                if (!lookup.CheckKitNumber(toolStripTextBoxKitNumber.Text))
-                    MessageBox.Show("Could not find kit number " + toolStripTextBoxKitNumber.Text, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
+                if(toolStripComboBoxContainerType.SelectedIndex == 0)
+                {
+                    if (!lookup.CheckKitNumber(toolStripTextBoxKitNumber.Text))
+                        MessageBox.Show("Could not find kit number " + toolStripTextBoxKitNumber.Text, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                    {
+                        try
+                        {
+                            this.dgv.DataSource = lookup.SearchComponents(toolStripTextBoxKitNumber.Text, toolStripComboBoxWarehouse.SelectedIndex);
+                            this.dgv.Refresh();
+                        }
+                        catch
+                        {
+                            if ((Warehouse)toolStripComboBoxWarehouse.SelectedIndex == Warehouse.WARSAW)
+                                MessageBox.Show("Could not any available product in (Warsaw)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            else if ((Warehouse)toolStripComboBoxWarehouse.SelectedIndex == Warehouse.SOUTHAVEN)
+                                MessageBox.Show("Could not any available product in (Southaven)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            else if ((Warehouse)toolStripComboBoxWarehouse.SelectedIndex == Warehouse.ALL)
+                                MessageBox.Show("Could not any available product", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            else
+                                return;
+                        }
+                    }
+                }
+                if(toolStripComboBoxContainerType.SelectedIndex == 1)
                 {
                     try
                     {
-                        this.dgv.DataSource = lookup.SearchComponents(toolStripTextBoxKitNumber.Text, toolStripComboBoxWarehouse.SelectedIndex);
-                        this.dgv.Refresh();
+                        DataTable dt = lookup.SearchComponentsInKits(toolStripTextBoxKitNumber.Text, toolStripComboBoxWarehouse.SelectedIndex);
+                        if (dt == null)
+                        {
+                            this.dgv.ClearSelection();
+                            this.dgv.DataSource = null;
+                        }
+                        else
+                        {
+                            this.dgv.DataSource = dt;
+                            this.dgv.Refresh();
+                        }                       
                     }
                     catch
                     {

@@ -16,7 +16,7 @@
     <PublishUrl>\\nam\wardfs\Dist\Centralized Inventory\ZB - Loaners Department\Ian\EfficientCareKitBuilder\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>

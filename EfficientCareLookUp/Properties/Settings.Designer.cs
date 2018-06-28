@@ -449,7 +449,7 @@ namespace EfficientCareLookUp.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int DEFAULT_WAREHOUSE_INDEX {
             get {
                 return ((int)(this["DEFAULT_WAREHOUSE_INDEX"]));
@@ -466,7 +466,7 @@ namespace EfficientCareLookUp.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("select distinct\r\n  kit_product_number\r\nfrom\r\n  doarni.effcient_care_bundle_number" +
             "s\r\nwhere\r\n  bundle_product_number = \'{0}\'")]
@@ -474,12 +474,9 @@ namespace EfficientCareLookUp.Properties {
             get {
                 return ((string)(this["EFFICIENT_CARE_BUNDLE_BREAKOUT"]));
             }
-            set {
-                this["EFFICIENT_CARE_BUNDLE_BREAKOUT"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("select distinct\r\n  bundle_product_number\r\nfrom\r\n  doarni.effcient_care_bundle_num" +
             "bers\r\nwhere\r\n  bundle_product_number like \'%{0}%\'\r\n")]
@@ -487,8 +484,200 @@ namespace EfficientCareLookUp.Properties {
             get {
                 return ((string)(this["EFFICIENT_CARE_BUNDLE_NUMBER_VERIFY"]));
             }
-            set {
-                this["EFFICIENT_CARE_BUNDLE_NUMBER_VERIFY"] = value;
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"WITH S0 AS (
+    SELECT DISTINCT
+      P.ID AS PRODUCT_ID,
+      PC.COMPONENT_PRODUCT_ID,
+      PC.QUANTITY
+    FROM
+      SMS_WRITE.PRODUCT P
+      LEFT JOIN SMS_WRITE.PRODUCT_COMPONENT PC ON P.ID = PC.PRODUCT_ID
+    WHERE
+      P.PRODUCT_TYPE IN (1, 2)
+)
+SELECT
+  P2.PRODUCT_NUMBER        AS COMPONENT_PRODUCT_NUMBER
+FROM
+  S0
+  LEFT JOIN SMS_WRITE.PRODUCT P ON S0.PRODUCT_ID = P.ID
+  LEFT JOIN SMS_WRITE.PRODUCT P2 ON S0.COMPONENT_PRODUCT_ID = P2.ID
+WHERE
+  p.PRODUCT_NUMBER like '%{0}%'
+GROUP BY
+  P2.ID, P2.EDI_NUMBER, P2.PRODUCT_NUMBER, P2.DESCRIPTION
+
+")]
+        public string EFFICIENT_CARE_KIT_COMPONENT_STD {
+            get {
+                return ((string)(this["EFFICIENT_CARE_KIT_COMPONENT_STD"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("WITH S0 AS (\r\n    SELECT DISTINCT\r\n      P.ID AS PRODUCT_ID,\r\n      PC.COMPONENT_" +
+            "PRODUCT_ID,\r\n      PC.QUANTITY\r\n    FROM\r\n      SMS_WRITE.PRODUCT P\r\n      LEFT " +
+            "JOIN SMS_WRITE.PRODUCT_COMPONENT PC ON P.ID = PC.PRODUCT_ID\r\n    WHERE\r\n      P." +
+            "PRODUCT_TYPE IN (1, 2)\r\n),\r\n    S1 AS (\r\n      SELECT\r\n        P.ID             " +
+            "        AS KIT_PRODUCT_ID,\r\n        P.PRODUCT_NUMBER         AS KIT_PRODUCT_NUMB" +
+            "ER,\r\n        P.EDI_NUMBER             AS KIT_EDI,\r\n        P.DESCRIPTION        " +
+            "    AS KIT_DESCRIPTION,\r\n        P2.PRODUCT_NUMBER        AS COMPONENT_PRODUCT_N" +
+            "UMBER,\r\n        P2.ID                    AS COMPONENT_PROD_ID,\r\n        P2.EDI_N" +
+            "UMBER            AS COMPONENT_EDI_NUMBER,\r\n        P2.DESCRIPTION           AS C" +
+            "OMPONENT_DESCRIPTION,\r\n        S0.QUANTITY              AS COMPONENT_QUANTITY_IN" +
+            "_KIT,\r\n        COUNT(P2.PRODUCT_NUMBER) AS TOTAL_COMPONENT_QTY_IN_KIT\r\n      FRO" +
+            "M\r\n        S0\r\n        LEFT JOIN SMS_WRITE.PRODUCT P ON S0.PRODUCT_ID = P.ID\r\n  " +
+            "      LEFT JOIN SMS_WRITE.PRODUCT P2 ON S0.COMPONENT_PRODUCT_ID = P2.ID\r\n      G" +
+            "ROUP BY\r\n        P.ID, P.PRODUCT_NUMBER, P.EDI_NUMBER, P.DESCRIPTION,\r\n        P" +
+            "2.ID, P2.EDI_NUMBER, P2.PRODUCT_NUMBER, P2.DESCRIPTION,\r\n        S0.QUANTITY\r\n  " +
+            "),\r\n\r\n    S5 AS (\r\n      SELECT\r\n        P2.PRODUCT_NUMBER                      " +
+            "       AS KIT_PROD_NUMBER,\r\n        PS.SERIAL_NUMBER                            " +
+            "  AS SERIAL_NUMBER,\r\n        B.ZONE || \'-\' || B.POSITION || \'-\' || B.SHELF AS KI" +
+            "T_BIN,\r\n        P.EDI_NUMBER                                  AS COMPONENT_EDI,\r" +
+            "\n        SUM(S.QUANTITY_AVAILABLE)                     AS QUANTITY_AVAILABLE,\r\n " +
+            "       PL.LOT_NUMBER                                 AS COMPONENT_LOT_NUMBER\r\n  " +
+            "    FROM\r\n        SMS_WRITE.STOCK S\r\n        LEFT JOIN SMS_WRITE.PRODUCT P ON S." +
+            "PRODUCT_ID = P.ID\r\n        LEFT JOIN SMS_WRITE.STOCK S2 ON S.CONTAINER_ID = S2.I" +
+            "D AND S.CONTAINER_TYPE = 2\r\n        LEFT JOIN SMS_WRITE.PRODUCT P2 ON S2.PRODUCT" +
+            "_ID = P2.ID\r\n        LEFT JOIN SMS_WRITE.PRODUCT_SERIAL PS ON S2.SERIAL_ID = PS." +
+            "ID\r\n        LEFT JOIN SMS_WRITE.BIN B ON S2.CONTAINER_ID = B.ID AND S2.CONTAINER" +
+            "_TYPE = 1\r\n        LEFT JOIN SMS_WRITE.PRODUCT_LOT PL ON S.LOT_ID = PL.ID\r\n     " +
+            " WHERE\r\n        S.LOCATION_TYPE = 1\r\n        AND S.LOCATION_ID IN (370, 1871)\r\n " +
+            "       AND S.STOCK_TYPE = 2\r\n        AND S.CONTAINER_TYPE = 2\r\n        AND P2.PR" +
+            "ODUCT_NUMBER IS NOT NULL\r\n      GROUP BY\r\n        PL.LOT_NUMBER,\r\n        P2.PRO" +
+            "DUCT_NUMBER,\r\n        PS.SERIAL_NUMBER,\r\n        B.ZONE || \'-\' || B.POSITION || " +
+            "\'-\' || B.SHELF,\r\n        P.EDI_NUMBER\r\n  ),\r\n    S7 AS (\r\n      SELECT DISTINCT\r" +
+            "\n        S.LOCATION_ID,\r\n        P.PRODUCT_NUMBER                              A" +
+            "S KIT_PRODUCT_NUMBER,\r\n        PS.ID                                         AS " +
+            "SERIAL_ID,\r\n        PS.SERIAL_NUMBER,\r\n        S.HOLD_REASON,\r\n        S.HOLD_NO" +
+            "TE,\r\n        B.ZONE || \'-\' || B.POSITION || \'-\' || B.SHELF AS KIT_BIN,\r\n        " +
+            "S.ID                                          AS STOCK_ID,\r\n        S.CONTAINER_" +
+            "ID                                AS BIN_ID\r\n      FROM\r\n        SMS_WRITE.STOCK" +
+            " S\r\n        LEFT JOIN SMS_WRITE.PRODUCT P ON S.PRODUCT_ID = P.ID\r\n        LEFT J" +
+            "OIN SMS_WRITE.PRODUCT_SERIAL PS ON PS.ID = S.SERIAL_ID\r\n        LEFT JOIN SMS_WR" +
+            "ITE.BIN B ON B.ID = S.CONTAINER_ID AND S.CONTAINER_TYPE = 1\r\n      WHERE\r\n      " +
+            "  S.INVENTORY_TYPE = 3\r\n        AND S.STOCK_TYPE IN (3, 4)\r\n        AND S.LOCATI" +
+            "ON_TYPE = 1\r\n        AND S.LOCATION_ID IN (370, 1871)\r\n  ),\r\n    S8 AS (\r\n      " +
+            "SELECT\r\n        P.PRODUCT_NUMBER,\r\n        P.ID                                 " +
+            "         AS COMPONENT_ID,\r\n        SUM(S.QUANTITY_AVAILABLE)                    " +
+            " AS QUANTITY_AVAILABLE,\r\n        B.ZONE || \'-\' || B.POSITION || \'-\' || B.SHELF A" +
+            "S COMPONENT_BIN,\r\n        B.ID                                          AS COMPO" +
+            "NENT_BIN_ID,\r\n        CASE\r\n        WHEN B.LOCATION_ID = 370\r\n          THEN \'SO" +
+            "UTHAVEN\'\r\n        WHEN B.LOCATION_ID = 1871\r\n          THEN \'WARSAW\'\r\n        EN" +
+            "D                                           AS WAREHOUSE_BIN\r\n      FROM\r\n      " +
+            "  SMS_WRITE.STOCK S\r\n        LEFT JOIN SMS_WRITE.PRODUCT P ON S.PRODUCT_ID = P.I" +
+            "D\r\n        LEFT JOIN SMS_WRITE.BIN B ON S.CONTAINER_ID = B.ID AND S.CONTAINER_TY" +
+            "PE = 1\r\n      WHERE\r\n        S.LOCATION_ID IN (370, 1871)\r\n        AND S.STOCK_T" +
+            "YPE IN (1, 2)\r\n        AND S.QUANTITY_AVAILABLE > 0\r\n        AND B.LOCATION_ID I" +
+            "N (370, 1871)\r\n      GROUP BY\r\n        P.PRODUCT_NUMBER, P.ID, B.ZONE, B.POSITIO" +
+            "N, B.SHELF, B.LOCATION_ID, B.ID\r\n  ),\r\n    S9 AS (\r\n      SELECT\r\n        S7.LOC" +
+            "ATION_ID,\r\n        S1.KIT_PRODUCT_ID,\r\n        S1.KIT_PRODUCT_NUMBER,\r\n        S" +
+            "1.KIT_EDI,\r\n        S1.KIT_DESCRIPTION,\r\n        S7.SERIAL_NUMBER,\r\n        S7.S" +
+            "ERIAL_ID,\r\n        S7.KIT_BIN,\r\n        S7.STOCK_ID,\r\n        S7.BIN_ID,\r\n      " +
+            "  S1.COMPONENT_PRODUCT_NUMBER,\r\n        S1.COMPONENT_PROD_ID,\r\n        S1.COMPON" +
+            "ENT_EDI_NUMBER,\r\n        S1.COMPONENT_DESCRIPTION,\r\n        S1.COMPONENT_QUANTIT" +
+            "Y_IN_KIT,\r\n        S1.TOTAL_COMPONENT_QTY_IN_KIT,\r\n        S7.HOLD_REASON,\r\n    " +
+            "    S7.HOLD_NOTE\r\n      FROM\r\n        S1\r\n        LEFT JOIN S7 ON S1.KIT_PRODUCT" +
+            "_NUMBER = S7.KIT_PRODUCT_NUMBER\r\n  ),\r\n    WRAPUP AS (\r\n      SELECT\r\n        S9" +
+            ".KIT_PRODUCT_ID                                                                 " +
+            "      AS KIT_PRODUCT_ID,\r\n        \'Z-\' || S9.KIT_PRODUCT_ID || \'-\' || S9.SERIAL_" +
+            "NUMBER                                    AS KIT_BARCODE,\r\n        S9.KIT_PRODUC" +
+            "T_NUMBER                                                                   AS KI" +
+            "T_PRODUCT_NUMBER,\r\n        S9.KIT_EDI                                           " +
+            "                                   AS KIT_EDI_NUMBER,\r\n        S9.KIT_DESCRIPTIO" +
+            "N                                                                      AS KIT_DE" +
+            "SCRIPTION,\r\n        S9.SERIAL_NUMBER                                            " +
+            "                            AS KIT_SERIAL_NUMBER,\r\n        S9.SERIAL_ID         " +
+            "                                                                   AS KIT_SERIAL" +
+            "_ID,\r\n        S9.KIT_BIN,\r\n        S9.BIN_ID                                    " +
+            "                                           AS KIT_BIN_ID,\r\n        CASE\r\n       " +
+            " WHEN S9.LOCATION_ID = 370\r\n          THEN \'SOUTHAVEN\'\r\n        WHEN S9.LOCATION" +
+            "_ID = 1871\r\n          THEN \'WARSAW\'\r\n        END                                " +
+            "                                                     AS WAREHOUSE_LOCATION,\r\n   " +
+            "     S9.COMPONENT_PRODUCT_NUMBER                                                " +
+            "             AS COMPONENT_PRODUCT_NUMBER,\r\n        S9.COMPONENT_PROD_ID         " +
+            "                                                           AS COMPONENT_PRODUCT_" +
+            "ID,\r\n        S9.COMPONENT_DESCRIPTION                                           " +
+            "                     AS COMPONENT_DESCRIPTION,\r\n        COALESCE(S8.QUANTITY_AVA" +
+            "ILABLE,\r\n                 0)                                                    " +
+            "                         AS COMPONENT_QTY_ON_SHELF,\r\n        COALESCE(S8.COMPONE" +
+            "NT_BIN, NULL)                                                        AS COMPONEN" +
+            "T_BIN,\r\n        COALESCE(S8.WAREHOUSE_BIN, \'NONE AVAILABLE\')                    " +
+            "                        AS WAREHOUSE_BIN,\r\n        S8.COMPONENT_BIN_ID,\r\n       " +
+            " S9.COMPONENT_QUANTITY_IN_KIT                                                   " +
+            "         AS COMPONENT_QUANTITY_IN_KIT_STD,\r\n        COUNT(*)\r\n        OVER (\r\n  " +
+            "        PARTITION BY S9.TOTAL_COMPONENT_QTY_IN_KIT, S9.SERIAL_NUMBER, S9.KIT_PRO" +
+            "DUCT_NUMBER ) AS TOTAL_COMPONENTS_IN_KIT_STD,\r\n        COALESCE(S5.QUANTITY_AVAI" +
+            "LABLE, 0)                                                      AS QTY_IN_KIT,\r\n " +
+            "       SUM(S9.COMPONENT_QUANTITY_IN_KIT - COALESCE(S5.QUANTITY_AVAILABLE, 0))\r\n " +
+            "       OVER (\r\n          PARTITION BY S9.KIT_PRODUCT_NUMBER, S9.SERIAL_NUMBER ) " +
+            "                               AS PIECES_MISSING,\r\n        S9.HOLD_REASON,\r\n    " +
+            "    S9.HOLD_NOTE,\r\n        S9.STOCK_ID                                          " +
+            "                                   AS KIT_STOCK_ID,\r\n        S9.BIN_ID          " +
+            "                                                                     AS KIT_CONT" +
+            "AINER_ID\r\n      FROM\r\n        S9\r\n        LEFT JOIN S5 ON S9.KIT_PRODUCT_NUMBER " +
+            "= S5.KIT_PROD_NUMBER AND S9.SERIAL_NUMBER = S5.SERIAL_NUMBER AND\r\n              " +
+            "          S9.COMPONENT_EDI_NUMBER = S5.COMPONENT_EDI\r\n        LEFT JOIN S8 ON S8" +
+            ".COMPONENT_ID = S9.COMPONENT_PROD_ID\r\n      WHERE\r\n        S9.COMPONENT_PRODUCT_" +
+            "NUMBER IN (\r\n          {0}\r\n        )\r\n      GROUP BY\r\n        S9.BIN_ID,\r\n     " +
+            "   S8.COMPONENT_BIN_ID,\r\n        S8.WAREHOUSE_BIN,\r\n        S9.LOCATION_ID,\r\n   " +
+            "     S9.HOLD_REASON,\r\n        S9.HOLD_NOTE,\r\n        S9.KIT_PRODUCT_ID,\r\n       " +
+            " S9.SERIAL_NUMBER,\r\n        S9.SERIAL_ID,\r\n        S9.KIT_PRODUCT_NUMBER,\r\n     " +
+            "   S9.KIT_DESCRIPTION,\r\n        S9.KIT_EDI,\r\n        S9.KIT_BIN,\r\n        S9.COM" +
+            "PONENT_EDI_NUMBER,\r\n        S8.QUANTITY_AVAILABLE,\r\n        S8.COMPONENT_BIN,\r\n " +
+            "       S9.COMPONENT_QUANTITY_IN_KIT,\r\n        S9.TOTAL_COMPONENT_QTY_IN_KIT,\r\n  " +
+            "      S9.COMPONENT_DESCRIPTION,\r\n        S9.COMPONENT_PROD_ID,\r\n        S9.COMPO" +
+            "NENT_PRODUCT_NUMBER,\r\n        S5.QUANTITY_AVAILABLE,\r\n        S9.STOCK_ID\r\n     " +
+            " ORDER BY\r\n        S9.SERIAL_NUMBER,\r\n        S9.COMPONENT_PRODUCT_NUMBER\r\n  ),\r" +
+            "\n    sf AS (\r\n      SELECT\r\n        KIT_PRODUCT_ID,\r\n        KIT_PRODUCT_NUMBER," +
+            "\r\n        KIT_DESCRIPTION,\r\n        KIT_SERIAL_NUMBER,\r\n        KIT_SERIAL_ID,\r\n" +
+            "        KIT_BIN,\r\n        KIT_BIN_ID,\r\n        WAREHOUSE_LOCATION,\r\n        KIT_" +
+            "STOCK_ID,\r\n        KIT_CONTAINER_ID,\r\n        COMPONENT_PRODUCT_ID,\r\n        COM" +
+            "PONENT_PRODUCT_NUMBER,\r\n        COMPONENT_DESCRIPTION,\r\n        COMPONENT_QTY_ON" +
+            "_SHELF,\r\n        COMPONENT_BIN,\r\n        WAREHOUSE_BIN,\r\n        COMPONENT_BIN_I" +
+            "D,\r\n        COMPONENT_QUANTITY_IN_KIT_STD,\r\n        TOTAL_COMPONENTS_IN_KIT_STD," +
+            "\r\n        TOTAL_COMPONENTS_IN_KIT_STD - PIECES_MISSING AS TOTAL_PIECES_IN_KIT,\r\n" +
+            "        QTY_IN_KIT                                   AS COMPONENT_QTY_IN_KIT,\r\n " +
+            "       PIECES_MISSING,\r\n        CASE\r\n        WHEN PIECES_MISSING = 0\r\n         " +
+            " THEN \'VALID\'\r\n        WHEN PIECES_MISSING != 0\r\n          THEN \'INVALID\'\r\n     " +
+            "   WHEN KIT_SERIAL_NUMBER IS NULL\r\n          THEN \'NOT_BUILT\'\r\n        END      " +
+            "                                    AS KIT_HEALTH,\r\n        HOLD_NOTE,\r\n        " +
+            "HOLD_REASON,\r\n        CASE\r\n        WHEN HOLD_REASON = 1\r\n          THEN \'CORPOR" +
+            "ATE_HOLD\'\r\n        WHEN HOLD_REASON = 2\r\n          THEN \'AWAITING_QC_CHECK\'\r\n   " +
+            "     WHEN HOLD_REASON = 3\r\n          THEN \'INVENTORY_STAGING\'\r\n        WHEN HOLD" +
+            "_REASON = 4\r\n          THEN \'MISSING_ITEMS\'\r\n        WHEN HOLD_REASON = 5\r\n     " +
+            "     THEN \'PICK_SHORTAGE\'\r\n        WHEN HOLD_REASON = 6\r\n          THEN \'CYCLE_C" +
+            "OUNT_IN_PROGRESS\'\r\n        WHEN HOLD_REASON = 7\r\n          THEN \'NOT_FOUND_DURIN" +
+            "G_CYCLE_COUNT\'\r\n        END                                          AS HOLD_REA" +
+            "SON_DESCRIPTION\r\n      FROM\r\n        WRAPUP\r\n      GROUP BY\r\n        KIT_BIN_ID," +
+            "\r\n        WAREHOUSE_BIN,\r\n        KIT_CONTAINER_ID,\r\n        KIT_STOCK_ID,\r\n    " +
+            "    HOLD_NOTE,\r\n        HOLD_REASON,\r\n        KIT_PRODUCT_ID,\r\n        KIT_PRODU" +
+            "CT_NUMBER,\r\n        KIT_DESCRIPTION,\r\n        KIT_SERIAL_NUMBER,\r\n        KIT_SE" +
+            "RIAL_ID,\r\n        KIT_BIN,\r\n        COMPONENT_BIN,\r\n        COMPONENT_QTY_ON_SHE" +
+            "LF,\r\n        COMPONENT_PRODUCT_ID,\r\n        COMPONENT_PRODUCT_NUMBER,\r\n        C" +
+            "OMPONENT_DESCRIPTION,\r\n        COMPONENT_QUANTITY_IN_KIT_STD,\r\n        TOTAL_COM" +
+            "PONENTS_IN_KIT_STD,\r\n        QTY_IN_KIT,\r\n        PIECES_MISSING,\r\n        WAREH" +
+            "OUSE_LOCATION,\r\n        COMPONENT_BIN_ID\r\n      ORDER BY\r\n        KIT_PRODUCT_NU" +
+            "MBER\r\n  )\r\nSELECT DISTINCT\r\n  COMPONENT_PRODUCT_NUMBER,\r\n  COMPONENT_QTY_IN_KIT," +
+            "\r\n  KIT_PRODUCT_NUMBER,\r\n  KIT_SERIAL_NUMBER,\r\n  KIT_BIN,\r\n  WAREHOUSE_LOCATION\r" +
+            "\nFROM\r\n  sf\r\nWHERE\r\n  KIT_SERIAL_NUMBER IS NOT NULL\r\n  AND COMPONENT_QTY_IN_KIT " +
+            "> 0\r\n  AND KIT_BIN != \'--\'\r\n  AND WAREHOUSE_LOCATION IN ({1})\r\n")]
+        public string EFFICIENT_CARE_COMPONENT_IN_KIT_SEARCH {
+            get {
+                return ((string)(this["EFFICIENT_CARE_COMPONENT_IN_KIT_SEARCH"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DEFAULT_CONTAINER_TYPE_INDEX {
+            get {
+                return ((int)(this["DEFAULT_CONTAINER_TYPE_INDEX"]));
             }
         }
     }

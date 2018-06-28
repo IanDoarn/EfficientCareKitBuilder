@@ -81,6 +81,30 @@ namespace EfficientCareLookUp.Data
             return oracle.execute(q);  
         }
 
+        public string SearchKitStd(string kitNumber)
+        {
+            DataTable dt = oracle.execute(string.Format(Properties.Settings.Default.EFFICIENT_CARE_KIT_COMPONENT_STD, kitNumber));
+
+            List<string> cmpts = new List<string>();
+
+            foreach (DataRow r in dt.Rows)
+                cmpts.Add(string.Format("'{0}'", r[0].ToString()));
+
+            return string.Join(",", cmpts);
+        }
+
+        public DataTable SearchComponentsInKits(string kitNumber, int warehouse)
+        {
+            if ((Warehouse)warehouse == Warehouse.NONE)
+                return null;
+            else
+            {
+                string q = string.Format(Properties.Settings.Default.EFFICIENT_CARE_COMPONENT_IN_KIT_SEARCH, SearchKitStd(kitNumber), warehouseString(warehouse));
+
+                return oracle.execute(q);
+            }
+        }
+
         public DataTable SearchKits(string bundleNumber)
         {
             string q = string.Format(Properties.Settings.Default.EFFICIENT_CARE_BUNDLE_BREAKOUT, bundleNumber);

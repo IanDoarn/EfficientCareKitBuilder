@@ -40,6 +40,8 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.dgv = new System.Windows.Forms.DataGridView();
+            this.toolStripComboBoxContainerType = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -53,20 +55,22 @@
             this.toolStripSeparator1,
             this.toolStripLabel2,
             this.toolStripComboBoxWarehouse,
+            this.toolStripLabel3,
             this.toolStripSeparator2,
-            this.toolStripButton1,
-            this.toolStripSeparator3});
+            this.toolStripComboBoxContainerType,
+            this.toolStripSeparator3,
+            this.toolStripButton1});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(653, 25);
+            this.toolStrip.Size = new System.Drawing.Size(681, 25);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "toolStrip1";
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(68, 22);
-            this.toolStripLabel1.Text = "Kit Number";
+            this.toolStripLabel1.Size = new System.Drawing.Size(96, 22);
+            this.toolStripLabel1.Text = "Product Number";
             // 
             // toolStripTextBoxKitNumber
             // 
@@ -122,7 +126,7 @@
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 25);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(653, 461);
+            this.mainPanel.Size = new System.Drawing.Size(681, 461);
             this.mainPanel.TabIndex = 2;
             // 
             // dgv
@@ -135,8 +139,22 @@
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.Location = new System.Drawing.Point(0, 0);
             this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(653, 461);
+            this.dgv.Size = new System.Drawing.Size(681, 461);
             this.dgv.TabIndex = 0;
+            // 
+            // toolStripComboBoxContainerType
+            // 
+            this.toolStripComboBoxContainerType.Items.AddRange(new object[] {
+            "BIN",
+            "KIT"});
+            this.toolStripComboBoxContainerType.Name = "toolStripComboBoxContainerType";
+            this.toolStripComboBoxContainerType.Size = new System.Drawing.Size(121, 25);
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(59, 22);
+            this.toolStripLabel3.Text = "Container";
             // 
             // LoosePieceSearch
             // 
@@ -145,7 +163,7 @@
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.toolStrip);
             this.Name = "LoosePieceSearch";
-            this.Size = new System.Drawing.Size(653, 486);
+            this.Size = new System.Drawing.Size(681, 486);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.mainPanel.ResumeLayout(false);
@@ -168,5 +186,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.Panel mainPanel;
         private System.Windows.Forms.DataGridView dgv;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxContainerType;
     }
 }
