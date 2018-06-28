@@ -29,140 +29,110 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ecluMainPanel = new System.Windows.Forms.Panel();
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBoxKitNumber = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripComboBoxWarehouse = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainForTabControl = new System.Windows.Forms.TabControl();
+            this.bundleTab = new System.Windows.Forms.TabPage();
+            this.loosepieceTab = new System.Windows.Forms.TabPage();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ecluMainPanel.SuspendLayout();
-            this.toolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
+            this.mainForTabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // ecluMainPanel
             // 
-            this.ecluMainPanel.Controls.Add(this.dataGridView1);
-            this.ecluMainPanel.Controls.Add(this.toolStrip);
+            this.ecluMainPanel.Controls.Add(this.mainForTabControl);
+            this.ecluMainPanel.Controls.Add(this.menuStrip1);
             this.ecluMainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ecluMainPanel.Location = new System.Drawing.Point(0, 0);
             this.ecluMainPanel.Name = "ecluMainPanel";
-            this.ecluMainPanel.Size = new System.Drawing.Size(535, 197);
+            this.ecluMainPanel.Size = new System.Drawing.Size(574, 343);
             this.ecluMainPanel.TabIndex = 0;
             // 
-            // toolStrip
+            // menuStrip1
             // 
-            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.toolStripTextBoxKitNumber,
-            this.toolStripSeparator1,
-            this.toolStripLabel2,
-            this.toolStripComboBoxWarehouse,
-            this.toolStripSeparator2,
-            this.toolStripButton1,
-            this.toolStripSeparator3});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(535, 25);
-            this.toolStrip.TabIndex = 0;
-            this.toolStrip.Text = "toolStrip1";
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(574, 24);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // toolStripLabel1
+            // fileToolStripMenuItem
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(68, 22);
-            this.toolStripLabel1.Text = "Kit Number";
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeToolStripMenuItem,
+            this.refreshToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
             // 
-            // toolStripTextBoxKitNumber
+            // closeToolStripMenuItem
             // 
-            this.toolStripTextBoxKitNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBoxKitNumber.Name = "toolStripTextBoxKitNumber";
-            this.toolStripTextBoxKitNumber.Size = new System.Drawing.Size(100, 25);
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // toolStripSeparator1
+            // mainForTabControl
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.mainForTabControl.Controls.Add(this.bundleTab);
+            this.mainForTabControl.Controls.Add(this.loosepieceTab);
+            this.mainForTabControl.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mainForTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainForTabControl.Location = new System.Drawing.Point(0, 24);
+            this.mainForTabControl.Name = "mainForTabControl";
+            this.mainForTabControl.SelectedIndex = 0;
+            this.mainForTabControl.Size = new System.Drawing.Size(574, 319);
+            this.mainForTabControl.TabIndex = 1;
             // 
-            // toolStripLabel2
+            // bundleTab
             // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(66, 22);
-            this.toolStripLabel2.Text = "Warehouse";
+            this.bundleTab.Location = new System.Drawing.Point(4, 22);
+            this.bundleTab.Name = "bundleTab";
+            this.bundleTab.Padding = new System.Windows.Forms.Padding(3);
+            this.bundleTab.Size = new System.Drawing.Size(566, 293);
+            this.bundleTab.TabIndex = 0;
+            this.bundleTab.Text = "Bundle Search";
+            this.bundleTab.UseVisualStyleBackColor = true;
             // 
-            // toolStripComboBoxWarehouse
+            // loosepieceTab
             // 
-            this.toolStripComboBoxWarehouse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toolStripComboBoxWarehouse.Items.AddRange(new object[] {
-            "WARSAW",
-            "SOUTHAVEN",
-            "NONE AVAILABLE",
-            "ALL"});
-            this.toolStripComboBoxWarehouse.Name = "toolStripComboBoxWarehouse";
-            this.toolStripComboBoxWarehouse.Size = new System.Drawing.Size(121, 25);
+            this.loosepieceTab.Location = new System.Drawing.Point(4, 22);
+            this.loosepieceTab.Name = "loosepieceTab";
+            this.loosepieceTab.Padding = new System.Windows.Forms.Padding(3);
+            this.loosepieceTab.Size = new System.Drawing.Size(566, 293);
+            this.loosepieceTab.TabIndex = 1;
+            this.loosepieceTab.Text = "Loose Piece Search";
+            this.loosepieceTab.UseVisualStyleBackColor = true;
             // 
-            // toolStripSeparator2
+            // refreshToolStripMenuItem
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(62, 22);
-            this.toolStripButton1.Text = "Search";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 25);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dataGridView1.Size = new System.Drawing.Size(535, 172);
-            this.dataGridView1.TabIndex = 1;
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(535, 197);
+            this.ClientSize = new System.Drawing.Size(574, 343);
             this.Controls.Add(this.ecluMainPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Efficient Care Kit Builder";
             this.ecluMainPanel.ResumeLayout(false);
             this.ecluMainPanel.PerformLayout();
-            this.toolStrip.ResumeLayout(false);
-            this.toolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.mainForTabControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -170,15 +140,12 @@
         #endregion
 
         private System.Windows.Forms.Panel ecluMainPanel;
-        private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxKitNumber;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxWarehouse;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TabControl mainForTabControl;
+        private System.Windows.Forms.TabPage bundleTab;
+        private System.Windows.Forms.TabPage loosepieceTab;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
     }
 }

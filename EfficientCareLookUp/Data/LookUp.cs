@@ -10,6 +10,7 @@ namespace EfficientCareLookUp.Data
 {
     public class LookUp
     {
+
         private Postgres postgres;
         private OracleDB oracle;
 
@@ -24,7 +25,7 @@ namespace EfficientCareLookUp.Data
             try
             {
                 DataTable dt = postgres.execute(string.Format(
-                    "SELECT kit_product_number FROM doarni.effcient_care_kit_numbers WHERE kit_product_number = '{0}'",
+                    Properties.Settings.Default.EFFICIENT_CARE_KIT_VERIFY,
                     s
                     ));
 
@@ -39,24 +40,71 @@ namespace EfficientCareLookUp.Data
             }
         }
 
+        public bool CheckBundleNumber(string s)
+        {
+            try
+            {
+                DataTable dt = postgres.execute(string.Format(
+                    Properties.Settings.Default.EFFICIENT_CARE_BUNDLE_NUMBER_VERIFY,
+                    s
+                    ));
+
+                foreach (DataRow r in dt.Rows)
+                    if (r[0].ToString() == s)
+                        return true;
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
         private string warehouseString(int w)
         {
-            switch (w)
+            switch ((Warehouse) w)
             {
-                case 0: return "'WARSAW'";
-                case 1: return "'SOUTHAVEN'";
-                case 2: return "'NONE AVAILABLE'";
-                case 3: return "'WARSAW', 'SOUTHAVEN'";
-                default: return "'WARSAW', 'SOUTHAVEN', 'NONE AVAILABLE'";
+                case Warehouse.WARSAW: return "'WARSAW'";
+                case Warehouse.SOUTHAVEN: return "'SOUTHAVEN'";
+                case Warehouse.NONE: return "'NONE AVAILABLE'";
+                case Warehouse.ALL: return "'WARSAW', 'SOUTHAVEN', 'NONE AVAILABLE'";
+                default: return "'WARSAW', 'SOUTHAVEN'";
 
             }
         }
 
-        public DataTable Search(string kitNumber, int warehouse)
+        public DataTable SearchComponents(string kitNumber, int warehouse)
         {
-            string q = string.Format(Properties.Settings.Default.EFFICIENT_CARE_QUERY, kitNumber, warehouseString(warehouse));         
+            string q = string.Format(Properties.Settings.Default.EFFICIENT_CARE_COMPONENT_LOOKUP, kitNumber, warehouseString(warehouse));         
             
             return oracle.execute(q);  
         }
+
+        public DataTable SearchKits(string bundleNumber)
+        {
+            string q = string.Format(Properties.Settings.Default.EFFICIENT_CARE_BUNDLE_BREAKOUT, bundleNumber);
+
+            DataTable dt  = postgres.execute(q);
+
+            DataTable bundleTable = new DataTable();
+            bundleTable.Columns.Add("KIT_NUMBER", typeof(string));
+            bundleTable.Columns.Add("VALID", typeof(int));
+            bundleTable.Columns.Add("INVALID", typeof(int));
+
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string kNumber = row[0].ToString();
+
+                DataTable kit = oracle.execute(string.Format(Properties.Settings.Default.EFFICIENT_CARE_KIT_SERIAL_LOOKUP, kNumber));
+                
+                foreach(DataRow krow in kit.Rows)
+                    bundleTable.Rows.Add(krow[0].ToString(), krow[1], krow[2]);
+            }
+
+            return bundleTable;
+        }
+
     }
 }

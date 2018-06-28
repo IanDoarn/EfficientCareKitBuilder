@@ -30,7 +30,14 @@ namespace EfficientCareLookUp.Forms
             if(Properties.Settings.Default.LOAD_KITS_ON_START)
                 LoadEFCKitNumbers();
 
-            toolStripComboBoxWarehouse.SelectedIndex = 0;
+            LoosePieceSearch lps = new LoosePieceSearch(postgres, oracle, lookup);
+            BundleSearch bs = new BundleSearch(postgres, oracle, lookup);
+
+            lps.Dock = DockStyle.Fill;
+            bs.Dock = DockStyle.Fill;
+
+            mainForTabControl.TabPages[0].Controls.Add(bs);
+            mainForTabControl.TabPages[1].Controls.Add(lps);
 
         }
 
@@ -62,40 +69,16 @@ namespace EfficientCareLookUp.Forms
             temp.Close();
         }
 
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.dataGridView1.ClearSelection();
-            this.dataGridView1.DataSource = null;
-            
-            if (string.IsNullOrEmpty(toolStripTextBoxKitNumber.Text) || string.IsNullOrWhiteSpace(toolStripTextBoxKitNumber.Text))
-            {
-                MessageBox.Show("You didn't enter anything!", "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
-            else
-            {
-                if (!lookup.CheckKitNumber(toolStripTextBoxKitNumber.Text))
-                    MessageBox.Show("Could not find kit number " + toolStripTextBoxKitNumber.Text, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                {
-                    try
-                    {
-                        this.dataGridView1.DataSource = lookup.Search(toolStripTextBoxKitNumber.Text, toolStripComboBoxWarehouse.SelectedIndex);
-                        this.dataGridView1.Refresh();
-                    }
-                    catch
-                    {
-                        if (toolStripComboBoxWarehouse.SelectedIndex == 0)
-                            MessageBox.Show("Could not any available product in (Warsaw)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else if (toolStripComboBoxWarehouse.SelectedIndex == 1)
-                            MessageBox.Show("Could not any available product in (Southaven)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else if (toolStripComboBoxWarehouse.SelectedIndex == 3)
-                            MessageBox.Show("Could not any available product", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else
-                            return;
-                    }
-                }
-            }
-        }    
+            LoadEFCKitNumbers();
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            postgres.CloseConnection();
+            oracle.CloseConnection();
+            this.Close();
+        }
     }
 }

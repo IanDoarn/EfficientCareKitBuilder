@@ -98,6 +98,7 @@
     <Compile Include="Database\Postgres.cs" />
     <Compile Include="Data\Component.cs" />
     <Compile Include="Data\LookUp.cs" />
+    <Compile Include="Data\Warehouse.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,11 +107,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\BundleSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\BundleSearch.Designer.cs">
+      <DependentUpon>BundleSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\LoadingPrompt.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\LoadingPrompt.Designer.cs">
       <DependentUpon>LoadingPrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\LoosePieceSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\LoosePieceSearch.Designer.cs">
+      <DependentUpon>LoosePieceSearch.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -124,8 +137,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\BundleSearch.resx">
+      <DependentUpon>BundleSearch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LoadingPrompt.resx">
       <DependentUpon>LoadingPrompt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\LoosePieceSearch.resx">
+      <DependentUpon>LoosePieceSearch.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="EfficientCareLookUp_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
