@@ -30,7 +30,7 @@ namespace EfficientCareLookUp.UserControls
 
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void search()
         {
             this.dgv.ClearSelection();
             this.dgv.DataSource = null;
@@ -52,16 +52,29 @@ namespace EfficientCareLookUp.UserControls
                     }
                     catch
                     {
-                        if ((Warehouse) toolStripComboBoxWarehouse.SelectedIndex == Warehouse.WARSAW)
+                        if ((Warehouse)toolStripComboBoxWarehouse.SelectedIndex == Warehouse.WARSAW)
                             MessageBox.Show("Could not any available product in (Warsaw)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else if ((Warehouse) toolStripComboBoxWarehouse.SelectedIndex == Warehouse.SOUTHAVEN)
+                        else if ((Warehouse)toolStripComboBoxWarehouse.SelectedIndex == Warehouse.SOUTHAVEN)
                             MessageBox.Show("Could not any available product in (Southaven)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else if ((Warehouse) toolStripComboBoxWarehouse.SelectedIndex == Warehouse.ALL)
+                        else if ((Warehouse)toolStripComboBoxWarehouse.SelectedIndex == Warehouse.ALL)
                             MessageBox.Show("Could not any available product", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         else
                             return;
                     }
                 }
+            }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            search();
+        }
+
+        private void toolStripTextBoxKitNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                search();
             }
         }
     }

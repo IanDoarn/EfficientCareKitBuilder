@@ -73,6 +73,7 @@
             this.toolStripTextBoxKitNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolStripTextBoxKitNumber.Name = "toolStripTextBoxKitNumber";
             this.toolStripTextBoxKitNumber.Size = new System.Drawing.Size(100, 25);
+            this.toolStripTextBoxKitNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxKitNumber_KeyDown);
             // 
             // toolStripSeparator1
             // 

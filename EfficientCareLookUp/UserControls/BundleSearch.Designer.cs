@@ -67,6 +67,7 @@
             this.toolStripTextBoxBundleSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.toolStripTextBoxBundleSearch.Name = "toolStripTextBoxBundleSearch";
             this.toolStripTextBoxBundleSearch.Size = new System.Drawing.Size(100, 25);
+            this.toolStripTextBoxBundleSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxBundleSearch_KeyDown);
             // 
             // toolStripSeparator1
             // 

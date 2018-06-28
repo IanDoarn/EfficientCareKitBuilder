@@ -27,7 +27,7 @@ namespace EfficientCareLookUp.UserControls
             InitializeComponent();
         }
 
-        private void toolStripButtonSearch_Click(object sender, EventArgs e)
+        private void search()
         {
             this.dgv.ClearSelection();
             this.dgv.DataSource = null;
@@ -47,9 +47,9 @@ namespace EfficientCareLookUp.UserControls
                         this.dgv.DataSource = lookup.SearchKits(toolStripTextBoxBundleSearch.Text);
                         this.dgv.Refresh();
 
-                        foreach(DataGridViewRow dgvr in this.dgv.Rows)
+                        foreach (DataGridViewRow dgvr in this.dgv.Rows)
                         {
-                            if(Convert.ToInt32(dgvr.Cells[1].Value) == 0 && Convert.ToInt32(dgvr.Cells[2].Value) == 0)
+                            if (Convert.ToInt32(dgvr.Cells[1].Value) == 0 && Convert.ToInt32(dgvr.Cells[2].Value) == 0)
                             {
                                 dgvr.DefaultCellStyle.BackColor = Color.LightCoral;
                             }
@@ -64,10 +64,24 @@ namespace EfficientCareLookUp.UserControls
                         }
                     }
                     catch
-                    {                        
+                    {
                         MessageBox.Show("Could not find kits from bundle " + toolStripTextBoxBundleSearch.Text + ".", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+            }
+
+        }
+
+        private void toolStripButtonSearch_Click(object sender, EventArgs e)
+        {
+            search();
+        }
+
+        private void toolStripTextBoxBundleSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                search();
             }
         }
     }

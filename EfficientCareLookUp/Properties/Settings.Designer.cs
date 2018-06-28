@@ -482,7 +482,7 @@ namespace EfficientCareLookUp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("select distinct\r\n  bundle_product_number\r\nfrom\r\n  doarni.effcient_care_bundle_num" +
-            "bers\r\nwhere\r\n  bundle_product_number like \'%UC.11H.L%\'\r\n")]
+            "bers\r\nwhere\r\n  bundle_product_number like \'%{0}%\'\r\n")]
         public string EFFICIENT_CARE_BUNDLE_NUMBER_VERIFY {
             get {
                 return ((string)(this["EFFICIENT_CARE_BUNDLE_NUMBER_VERIFY"]));
