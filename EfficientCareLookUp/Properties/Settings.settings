@@ -1013,5 +1013,22 @@ WHERE
     <Setting Name="DEFAULT_CONTAINER_TYPE_INDEX" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="EFFICIENT_CARE_DCS_EDI_LOOK_UP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">select distinct
+  p.product_number,
+  iv.on_hand_1a,
+  iv.available_1a,
+  iv.backorder_1a,
+  iv.on_hand_e01,
+  iv.available_e01,
+  iv.backorder_e01,
+  iv.on_hand_5c,
+  iv.backorder_5c
+from
+  sms.product p
+  left join dcs.inventory_summary iv on p.edi_number :: varchar = iv.prod_id
+where
+  p.edi_number = '{0}'</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -680,5 +680,28 @@ GROUP BY
                 return ((int)(this["DEFAULT_CONTAINER_TYPE_INDEX"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"select distinct
+  p.product_number,
+  iv.on_hand_1a,
+  iv.available_1a,
+  iv.backorder_1a,
+  iv.on_hand_e01,
+  iv.available_e01,
+  iv.backorder_e01,
+  iv.on_hand_5c,
+  iv.backorder_5c
+from
+  sms.product p
+  left join dcs.inventory_summary iv on p.edi_number :: varchar = iv.prod_id
+where
+  p.edi_number = '{0}'")]
+        public string EFFICIENT_CARE_DCS_EDI_LOOK_UP {
+            get {
+                return ((string)(this["EFFICIENT_CARE_DCS_EDI_LOOK_UP"]));
+            }
+        }
     }
 }
